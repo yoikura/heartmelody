@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<title>vr视频</title>
+		<meta name="Description" content="UtoVR全景播放器">
+		<!--引入引导js 动态下载播放器-->
+		<script language="javascript" type="text/javascript" src="./player/UtoVRPlayerGuide.js"></script>
+		<style type="text/css">
+			html body {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				padding: 0px;
+				margin: 0px;
+			}
+
+			#panoDesk {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				left: 0px;
+				top: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="panoDesk"></div>
+	</body>
+	<script language="javascript" type="text/javascript">
+		/*播放器参数配置*/
+		var params = {
+			container: document.getElementById("panoDesk"),
+			name: "SceneViewer",
+			isGyro: true, //默认开启陀螺仪功能  移动端支持陀螺仪设备有效
+			scenesArr: [
+				//todo:注意修改视频路径，需要保证播放页面与视频属于同一域名下
+				{
+					sceneId: "v1",
+					sceneName: "赛车",
+					sceneFilePath: "https://heartmelody.oss-cn-beijing.aliyuncs.com/scene/scene/1.mp4",
+					sceneType: "Video",
+					isVideoAutoPlay: true //todo:注意isVideoAutoPlay 是H5 模式下的播放属性，不适用于移动端
+				}
+			],
+			//播放器不支持全景播放回调
+			errorCallBack: function(e) {
+				console.log("错误状态：" + e);
+			},
+			//浏览器不支持全屏回调
+			fsCallBack: function(status, playObj) {
+				alert("浏览器不支持全屏！");
+			}
+		};
+		/*初始化开始*/
+		window.onload = function() {
+			initLoad(params);
+		};
+	</script>
+
+</html>
