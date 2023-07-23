@@ -1,0 +1,9 @@
+{
+    "id": "niu-calendar",
+    "name": "时间长度内的日历切换",
+    "version": "0.0.1",
+    "description": "基于项目需要，提供一个简单的日历实现，有差不多的可以用",
+    "keywords": [
+        "日历"
+    ]
+}

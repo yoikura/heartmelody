@@ -1,0 +1,129 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		}, {
+			"path": "pages/handle/handle",
+			"style": {
+				"navigationBarTitleText": "资源处理",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/diagnose/diagnose",
+			"style": {
+				"navigationBarTitleText": "紧张焦虑诊断",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/sceneCreate/sceneCreate",
+			"style": {
+				"navigationBarTitleText": "音乐场景生成",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/analyse/analyse",
+			"style": {
+				"navigationBarTitleText": "情绪评估和治疗方案",
+				"enablePullDownRefresh": false
+			}
+
+		},{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/favorite/favorite",
+			"style": {
+				"navigationBarTitleText": "我的喜欢",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/record/record",
+			"style": {
+				"navigationBarTitleText": "诊断记录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/treatrecord/treatrecord",
+			"style": {
+				"navigationBarTitleText": "治疗记录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/quanjing/quanjing",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
+	"tabBar": {
+		"list": [{
+				"pagePath": "pages/index/index"
+			},
+			{
+				"pagePath": "pages/handle/handle"
+			},
+			{
+				"pagePath": "pages/my/my"
+			}
+		]
+	},
+	"subPackages": [{
+		"root": "subpkg",
+		"pages": [
+
+			{
+				"path": "scene/scene",
+				"style": {
+					"navigationBarTitleText": "音乐场景",
+					"enablePullDownRefresh": false
+				}
+
+			}, {
+				"path": "playlist/playlist",
+				"style": {
+					"navigationBarTitleText": "播放列表",
+					"enablePullDownRefresh": false
+				}
+
+			}
+		]
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}
