@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heartmelody.dudui.mapper.HmUserInfoMapper">
+
+    <resultMap id="DiagnosticLoggingMap" type="com.heartmelody.dudui.domain.vo.DiagnosticLoggingVO">
+        <result column="did" property="did" />
+        <result column="uid" property="uid" />
+        <result column="user_name" property="userName" />
+        <result column="create_time" property="createTime" />
+        <result column="results" property="results" />
+        <result column="eid" property="eid" />
+        <result column="etid" property="etid" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <resultMap id="TreatmentRecordsMap" type="com.heartmelody.dudui.domain.vo.TreatmentRecordsVO">
+        <result column="rid" property="rid" />
+        <result column="uid" property="uid" />
+        <result column="sid" property="sid" />
+        <result column="sname" property="sname" />
+        <result column="cover" property="cover" />
+        <result column="user_name" property="userName" />
+        <result column="results" property="results" />
+        <result column="create_time" property="createTime" />
+        <result column="duration" property="duration" />
+    </resultMap>
+
+    <resultMap id="FavoriteSceneMap" type="com.heartmelody.dudui.domain.vo.SceneInfoVO">
+        <result column="sid" property="sid" />
+        <result column="sname" property="sname" />
+        <result column="create_time" property="createTime" />
+        <result column="mid" property="mid" />
+        <result column="address" property="address" />
+        <result column="duration" property="duration" />
+        <result column="format" property="format" />
+        <result column="size" property="size" />
+        <result column="equipment" property="equipment" />
+        <result column="description" property="description" />
+        <result column="cover" property="cover" />
+    </resultMap>
+
+    <select id="getUserInfo" parameterType="com.heartmelody.dudui.domain.dto.HmUserInfoDTO" resultType="com.heartmelody.dudui.domain.entity.UserInfo">
+        select * from user_info where uid = #{uid}
+    </select>
+
+    <select id="getByTel" parameterType="String" resultType="com.heartmelody.dudui.domain.entity.UserInfo">
+        select * from user_info where tel = #{tel}
+    </select>
+
+    <insert id="insert" parameterType="com.heartmelody.dudui.domain.entity.UserInfo">
+        insert into user_info(uid, user_name, tel, avatar) values (#{uid}, #{userName},#{tel},#{avatar})
+    </insert>
+
+    <select id="getDiagnosticLogging" parameterType="com.heartmelody.dudui.domain.dto.HmUserInfoDTO" resultMap="DiagnosticLoggingMap">
+        select diagnostic_logging.uid,did,user_name,create_time,results,eid,etid,description from diagnostic_logging left outer join user_info on diagnostic_logging.uid=user_info.uid where diagnostic_logging.uid = #{uid}
+        order by diagnostic_logging.create_time desc
+    </select>
+
+    <select id="getTreatmentRecords" parameterType="com.heartmelody.dudui.domain.dto.HmUserInfoDTO" resultMap="TreatmentRecordsMap">
+        select rid,tr.uid,tr.sid,sname,cover,user_name,tr.create_time,tr.duration from treatment_records tr
+            left outer join scene_info si on si.sid = tr.sid
+            left outer join user_info ui on ui.uid = tr.uid
+        where tr.uid = #{uid}
+        order by tr.create_time desc
+    </select>
+
+    <select id="getFavoriteScene" parameterType="com.heartmelody.dudui.domain.dto.HmUserInfoDTO" resultMap="FavoriteSceneMap">
+        select * from scene_info where sid in (select sid from favorite_scene where uid = #{uid})
+    </select>
+
+    <update id="updateUserInfo" parameterType="com.heartmelody.dudui.domain.dto.HmUserInfoDTO">
+        update user_info
+        <set>
+            <if test="userName!=null">user_name=#{userName},</if>
+            <if test="tel!=null">tel=#{tel},</if>
+            <if test="avatar!=null">avatar=#{avatar},</if>
+        </set>
+        where uid=#{uid}
+    </update>
+
+
+</mapper>

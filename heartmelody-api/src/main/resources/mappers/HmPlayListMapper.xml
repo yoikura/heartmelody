@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heartmelody.dudui.mapper.HmPlayListMapper">
+
+    <resultMap id="SceneListMap" type="com.heartmelody.dudui.domain.entity.SceneInfo">
+        <result column="sid" property="sid" />
+        <result column="sname" property="sname" />
+        <result column="create_time" property="createTime" />
+        <result column="mid" property="mid" />
+        <result column="address" property="address" />
+        <result column="duration" property="duration" />
+        <result column="format" property="format" />
+        <result column="size" property="size" />
+        <result column="equipment" property="equipment" />
+        <result column="description" property="description" />
+        <result column="cover" property="cover" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.heartmelody.dudui.domain.entity.PlayList">
+        insert into playlist values (#{lid}, #{uid},#{sid},#{createTime})
+    </insert>
+
+    <select id="selectList" parameterType="com.heartmelody.dudui.domain.dto.HmUserInfoDTO" resultMap="SceneListMap">
+        select * from scene_info right join playlist pl on (pl.sid = scene_info.sid) order by pl.create_time desc
+    </select>
+
+    <select id="getById" parameterType="com.heartmelody.dudui.domain.entity.PlayList" resultType="com.heartmelody.dudui.domain.entity.PlayList">
+        select * from playlist where sid  = #{sid} and uid = #{uid}
+    </select>
+
+    <delete id="delete" parameterType="com.heartmelody.dudui.domain.entity.PlayList">
+        delete from playlist where sid = #{sid};
+    </delete>
+
+</mapper>

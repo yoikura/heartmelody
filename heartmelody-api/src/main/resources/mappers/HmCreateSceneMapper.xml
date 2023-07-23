@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heartmelody.dudui.mapper.HmCreateSceneMapper">
+    <select id="findFavoriteScene" parameterType="com.heartmelody.dudui.domain.dto.HmScenSetFavoriteSceneDTO" resultType="com.heartmelody.dudui.domain.entity.FavoriteScene">
+        select * from favorite_scene where uid = #{uid} and sid = #{sid}
+    </select>
+    <insert id="insertFavoriteScene" parameterType="com.heartmelody.dudui.domain.dto.HmScenSetFavoriteSceneDTO">
+        insert into favorite_scene(uid, sid) values (#{uid},#{sid})
+    </insert>
+    <delete id="deleteFavoriteScene" parameterType="com.heartmelody.dudui.domain.dto.HmScenSetFavoriteSceneDTO">
+        delete from favorite_scene where uid = #{uid} and sid = #{sid}
+    </delete>
+
+    <insert id="insertNewScene" parameterType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        insert into
+            scene_info(sname, mid, address,
+                       duration,format, size,
+                       equipment,description, cover,decide,type,music_kid)
+        VALUES (#{sname},#{mid},#{address},
+                #{duration},#{format},#{size},
+                #{equipment},#{description},#{cover},#{decide},#{type},#{musicKid})
+        <selectKey keyProperty="sid" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID() as sid
+        </selectKey>
+    </insert>
+    <select id="getAllSceneType" resultType="com.heartmelody.dudui.domain.entity.SceneType">
+        select * from scene_type
+    </select>
+    <select id="getSenceByType" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        select scene_info.*,(case f.uid when #{uid} then true else false end ) isFavorite
+        from scene_info
+        left join scene_scene_type on (scene_info.sid = scene_scene_type.sid)
+        left join favorite_scene f on (f.sid = scene_info.sid and f.uid = #{uid})
+        where
+           scene_scene_type.stid = #{stid} and
+              scene_info.type = 3
+    </select>
+    <select id="getSenceInfo" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        select scene_info.*,(case f.uid when #{uid} then true else false end ) isFavorite
+        from scene_info
+                 left join scene_scene_type on (scene_info.sid = scene_scene_type.sid)
+                 left join favorite_scene f on (f.sid = scene_info.sid and f.uid = #{uid})
+        where
+            scene_info.sid = #{sid}
+    </select>
+    <select id="getAllSceneXieShi" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        select * from
+            scene_info si
+        where
+          si.type = 1 and si.music_kid = #{musicKid}
+    </select>
+
+    <select id="getAllSceneDongman" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        select * from
+            scene_info si
+        where
+            si.type = 0 and si.music_kid = #{musicKid}
+    </select>
+    <select id="getLastInsertId" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID()
+    </select>
+    <select id="getAllScene" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        select * from
+            scene_info
+    </select>
+    <insert id="insertSceneType">
+        insert into scene_scene_type(sid,stid) values (#{sid},#{stid})
+    </insert>
+    <insert id="insertTreatmentRecord">
+        insert into treatment_records(uid,sid,create_time,duration) values(#{uid},#{sid},now(),#{duration})
+    </insert>
+    <update id="updateSenceAnxietylevels">
+        update scene_info set anxiety_levels = #{levels} where sid = #{sid}
+    </update>
+    <update id="updateScene">
+        update scene_info set description = #{desc} where sid = #{sid};
+    </update>
+
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heartmelody.dudui.mapper.HmUserAnalyseMapper">
+    <insert id="insertIntoDayPlan">
+        insert into day_plan(uid,`day`,`time`,stid,sid) values(#{uid},#{day},#{time},#{stid},#{sid})
+    </insert>
+    <delete id="deleteByUid">
+        delete from day_plan where uid = #{uid}
+    </delete>
+
+    <select id="getDiagnoseAnalyse" resultType="java.util.Map">
+        SELECT date_format(dl.create_time,'%Y/%m/%d') date,ROUND(sum(
+
+        case dl.results when "正常" then 0 when "轻度焦虑" then 1 when "中度焦虑" then 2 else  3 end
+
+        )/COUNT(dl.results),2) `data` from diagnostic_logging dl
+
+        where dl.uid = #{uid} and dl.create_time >= #{startTime} and #{endTime} >= dl.create_time
+        GROUP BY date_format(dl.create_time,'%Y/%m/%d')
+    </select>
+    <select id="getDiseaseAnalyse" resultType="java.util.Map">
+        SELECT dl.results `name`,COUNT(dl.results) `value` from diagnostic_logging dl
+
+        where dl.uid = #{uid} and dl.create_time >= #{startTime} and #{endTime} >= dl.create_time
+        GROUP BY dl.results
+    </select>
+    <select id="getAllSceneType" resultType="com.heartmelody.dudui.domain.entity.SceneType">
+        SELECT * from scene_type where stid!=1
+    </select>
+    <select id="getAllSceneInfo" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        SELECT * from scene_info
+    </select>
+    <select id="getAllSceneInfoP" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        SELECT si.*,sst.stid from scene_info si left join scene_scene_type sst on(si.sid = sst.sid) where si.type = 3 and sst.stid != 1
+    </select>
+
+    <select id="selectDayPlan" resultType="java.util.Map">
+        select stid,sid,`time`
+        from day_plan
+        where
+            uid = #{uid} and `day` = #{day}
+    </select>
+    <select id="getSceneTypeByid" resultType="com.heartmelody.dudui.domain.entity.SceneType">
+        select *
+        from scene_type
+        where
+            stid = #{stid}
+    </select>
+    <select id="getSceneByBy" resultType="com.heartmelody.dudui.domain.entity.SceneInfo">
+        SELECT * from scene_info
+        where sid = #{sid}
+    </select>
+</mapper>

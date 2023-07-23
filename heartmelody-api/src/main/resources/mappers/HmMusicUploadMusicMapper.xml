@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heartmelody.dudui.mapper.HmMusicUploadMusicMapper">
+    <insert id="insertMusicInfo" parameterType="com.heartmelody.dudui.domain.entity.MusicInfo" useGeneratedKeys="true" keyProperty="mid">
+        insert into
+            music_info(mname,duration,format,size,address,
+                       have_lyrics,lyrics,rhythm_info,
+                       sentiment_label,volume_level,
+                       volume_info,rhythm_speed,
+                       anxiety_levels)
+        values(#{mname},#{duration},#{format},#{size},
+               #{address},#{haveLyrics},#{lyrics},#{rhythmInfo},
+               #{sentimentLabel},#{volumeLevel},#{volumeInfo},#{rhythmSpeed},
+               #{anxietyLevels})
+        <selectKey keyProperty="mid" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <select id="findMusicTypeByName" parameterType="string" resultType="int">
+        select mtid from music_type where type_name = #{name}
+    </select>
+    <select id="getAllMusicTypes" resultType="com.heartmelody.dudui.domain.entity.MusicType">
+        select * from music_type
+    </select>
+    <insert id="insertMusicType">
+        insert into music_music_type(mid, mtid) VALUES (#{mid},#{mtid})
+    </insert>
+</mapper>

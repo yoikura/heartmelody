@@ -1,0 +1,68 @@
+server:
+  port: 9999
+
+###################  spring配置  ###################
+spring:
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 2048MB
+      # 设置总上传的文件大小
+      max-request-size: 4096MB
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 主库数据源
+      master:
+      url: jdbc:mysql://127.0.0.1:3306/heartmelody?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+      username: heartmelody
+      password: heartmelody
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 5
+      # 最大连接池数量
+      maxActive: 50
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+  redis:
+    host: 127.0.0.1 # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+
+  session:
+    store-type: redis  # 配置Session的存储方式为Redis
+
+# Swagger配置
+swagger:
+  enabled: true
+  # 请求前缀
+  pathMapping: /dev-api
+
+aliyun:
+  oss:
+    endpoint: http://oss-cn-beijing.aliyuncs.com # oss对外服务的访问域名 普通域名#http://oss-accelerate.aliyuncs.com  #传输加速域名
+    accessKeyId: LTAI5t9HggHRzZTc5PMTrzoG
+    accessKeySecret: BTujskllAqOSAGfyiYS0zutEuAyHyU
+    bucketName: heartmelody
+    url: https://heartmelody.oss-accelerate.aliyuncs.com/ # https://heartmelody.oss-cn-beijing.aliyuncs.com/ #普通域名
+    filePath:
+      emoAnalyseFilePath: /user/
+    policy:
+      expire: 300 # 签名有效期(S)
+      maxSize: 2048 # 上传文件大小(M)
+    #callback:  # 文件上传成功后的回调地址
+    dir:
+      prefix: testdata/ # 上传文件夹路径前缀
+  sms:
+    accessKeyId: LTAI5t9HggHRzZTc5PMTrzoG
+    accessKeySecret: BTujskllAqOSAGfyiYS0zutEuAyHyU
+    signName: heartmelody
+    templateCode: SMS_275285392
+    regionId: cn-hangzhou
+

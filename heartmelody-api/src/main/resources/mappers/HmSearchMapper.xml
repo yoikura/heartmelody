@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heartmelody.dudui.mapper.HmSearchMapper">
+
+
+    <select id="getSencesByTitle" resultType="java.util.Map">
+        select si.sid,si.sname title,si.cover,(case f.uid when #{uid} then true else false end ) isFavorite
+        from scene_info si
+                 left join favorite_scene f on (f.sid = si.sid and f.uid = #{uid})
+        where
+            si.type = 3 and (si.sname like concat('%',#{title},'%') or si.description like concat('%',#{title},'%'))
+    </select>
+</mapper>
